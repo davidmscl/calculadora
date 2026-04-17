@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './Calculator.css'
 
 const BINARY_OPS = { '÷': (a, b) => a / b, '×': (a, b) => a * b, '−': (a, b) => a - b, '+': (a, b) => a + b, 'xʸ': (a, b) => Math.pow(a, b) }
@@ -50,6 +50,11 @@ export default function Calculator() {
   const [op, setOp] = useState(null)
   const [resetNext, setResetNext] = useState(false)
   const [parenCount, setParenCount] = useState(0)
+  const [theme, setTheme] = useState('dark')
+
+  useEffect(() => {
+    document.body.dataset.theme = theme
+  }, [theme])
 
   const applyUnary = (fn, val) => {
     const result = UNARY_OPS[fn](val)
@@ -141,6 +146,13 @@ export default function Calculator() {
 
   return (
     <div className="calc">
+      <button
+        className="theme-toggle"
+        onClick={() => setTheme(t => t === 'dark' ? 'light' : 'dark')}
+        title={theme === 'dark' ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro'}
+      >
+        {theme === 'dark' ? '☀' : '☾'}
+      </button>
       <div className="display">
         <span className="expr">{expr}</span>
         <span className="number" style={{ fontSize: displaySize }}>{display}</span>

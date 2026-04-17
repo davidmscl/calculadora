@@ -1,13 +1,39 @@
 .calc {
-  background: #16213e;
+  background: var(--bg-calc);
   border-radius: 24px;
   padding: 20px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  box-shadow: var(--shadow-calc);
   width: 380px;
+  position: relative;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.theme-toggle {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  background: transparent;
+  border: none;
+  color: var(--color-expr);
+  font-size: 17px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s;
+}
+
+.theme-toggle:hover {
+  background: var(--bg-btn);
+  color: var(--color-number);
 }
 
 .display {
-  background: #0f3460;
+  background: var(--bg-display);
   border-radius: 16px;
   padding: 16px 20px 12px;
   margin-bottom: 16px;
@@ -17,23 +43,25 @@
   align-items: flex-end;
   justify-content: flex-end;
   gap: 4px;
+  transition: background 0.3s ease;
 }
 
 .expr {
-  color: #7a8db5;
+  color: var(--color-expr);
   font-size: 14px;
   min-height: 18px;
   word-break: break-all;
   text-align: right;
+  transition: color 0.3s ease;
 }
 
 .number {
-  color: #ffffff;
+  color: var(--color-number);
   font-weight: 300;
   letter-spacing: -1px;
   word-break: break-all;
   line-height: 1;
-  transition: font-size 0.15s;
+  transition: font-size 0.15s, color 0.3s ease;
 }
 
 .buttons {
@@ -55,15 +83,15 @@
   font-size: 16px;
   font-weight: 400;
   cursor: pointer;
-  transition: all 0.1s ease;
-  background: #1a1a2e;
-  color: #e0e0e0;
+  transition: all 0.1s ease, background 0.3s ease, color 0.3s ease;
+  background: var(--bg-btn);
+  color: var(--color-btn);
   user-select: none;
   white-space: nowrap;
 }
 
 .btn:hover {
-  filter: brightness(1.25);
+  filter: brightness(1.1);
 }
 
 .btn:active {
@@ -72,24 +100,24 @@
 }
 
 .btn.sci {
-  background: #1e2d4d;
-  color: #a8c6ff;
+  background: var(--bg-btn-sci);
+  color: var(--color-btn-sci);
   font-size: 14px;
 }
 
 .btn.op {
-  background: #e94560;
-  color: #ffffff;
+  background: var(--bg-btn-op);
+  color: var(--color-btn-op);
 }
 
 .btn.equals {
-  background: #e94560;
-  color: #ffffff;
+  background: var(--bg-btn-op);
+  color: var(--color-btn-op);
 }
 
 .btn.special {
-  background: #2d2060;
-  color: #c8b8ff;
+  background: var(--bg-btn-special);
+  color: var(--color-btn-special);
 }
 
 .btn.hidden {
