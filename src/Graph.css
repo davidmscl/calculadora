@@ -1,0 +1,134 @@
+.graph-wrap {
+  display: flex;
+  gap: 16px;
+  flex: 1;
+  min-width: 0;
+  max-width: 860px;
+  height: min(80vh, 600px);
+}
+
+.graph-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 220px;
+  flex-shrink: 0;
+  background: var(--bg-calc);
+  border-radius: 20px;
+  padding: 16px;
+  box-shadow: var(--shadow-calc);
+}
+
+.graph-fn-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.graph-fn-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.fn-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.fn-label {
+  color: var(--color-expr);
+  font-size: 12px;
+  white-space: nowrap;
+  font-family: monospace;
+}
+
+.fn-input {
+  flex: 1;
+  min-width: 0;
+  background: var(--bg-display);
+  border: none;
+  border-radius: 8px;
+  padding: 6px 8px;
+  color: var(--color-number);
+  font-size: 13px;
+  font-family: 'Courier New', monospace;
+  outline: none;
+  transition: box-shadow 0.2s;
+}
+
+.fn-input:focus {
+  box-shadow: 0 0 0 2px rgba(233, 69, 96, 0.45);
+}
+
+.fn-rm {
+  background: none;
+  border: none;
+  color: var(--color-expr);
+  cursor: pointer;
+  font-size: 16px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+
+.fn-rm:hover {
+  background: var(--bg-btn);
+  color: var(--color-number);
+}
+
+.graph-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.ctrl-btn {
+  background: var(--bg-btn-special);
+  color: var(--color-btn-special);
+  border: none;
+  border-radius: 8px;
+  padding: 6px 4px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: filter 0.15s;
+  white-space: nowrap;
+}
+
+.ctrl-btn:hover {
+  filter: brightness(1.2);
+}
+
+.ctrl-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.graph-hint {
+  margin-top: auto;
+  color: var(--color-expr);
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.graph-hint code {
+  display: block;
+  font-family: 'Courier New', monospace;
+  color: var(--color-btn-sci);
+  font-size: 12px;
+}
+
+.graph-canvas {
+  flex: 1;
+  border-radius: 20px;
+  cursor: crosshair;
+  box-shadow: var(--shadow-calc);
+  display: block;
+}

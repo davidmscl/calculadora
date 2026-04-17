@@ -4,33 +4,9 @@
   padding: 20px;
   box-shadow: var(--shadow-calc);
   width: 380px;
-  position: relative;
   transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
-.theme-toggle {
-  position: absolute;
-  top: 12px;
-  right: 14px;
-  background: transparent;
-  border: none;
-  color: var(--color-expr);
-  font-size: 17px;
-  cursor: pointer;
-  padding: 4px;
-  border-radius: 50%;
-  width: 28px;
-  height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.2s, color 0.2s;
-}
-
-.theme-toggle:hover {
-  background: var(--bg-btn);
-  color: var(--color-number);
-}
 
 .display {
   background: var(--bg-display);

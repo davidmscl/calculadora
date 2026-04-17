@@ -40,10 +40,8 @@
 
 body {
   min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   background: var(--bg-body);
   font-family: 'Segoe UI', sans-serif;
   transition: background 0.3s ease;
+  overflow-x: hidden;
 }
