@@ -8,6 +8,7 @@
     "assetBundlePatterns": ["**/*"],
     "ios": { "supportsTablet": true },
     "android": {
+      "package": "cl.mikron.calculadora",
       "adaptiveIcon": {
         "backgroundColor": "#1a1a2e"
       }

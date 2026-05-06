@@ -1,16 +1,31 @@
 import { useState } from 'react'
 import {
   View, Text, TouchableOpacity, StyleSheet,
-  SafeAreaView, StatusBar,
+  SafeAreaView, StatusBar, ScrollView,
 } from 'react-native'
+import { useFonts } from 'expo-font'
 import Calculator from './Calculator'
 import Graph from './Graph'
+import Matrices from './Matrices'
 import { dark, light } from './theme'
+
+const TABS = [
+  { id: 'calc',     label: 'Calculadora' },
+  { id: 'graph',    label: 'Gráficas'    },
+  { id: 'matrices', label: 'Matrices'    },
+]
 
 export default function App() {
   const [tab, setTab] = useState('calc')
   const [themeName, setThemeName] = useState('dark')
   const theme = themeName === 'dark' ? dark : light
+
+  const [fontsLoaded] = useFonts({
+    'DotMatrix':     require('../DOTMATRI.ttf'),
+    'DotMatrixBold': require('../dot_matrix/DOTMBold.ttf'),
+  })
+
+  if (!fontsLoaded) return null
 
   return (
     <SafeAreaView style={[styles.root, { backgroundColor: theme.bgBody }]}>
@@ -20,36 +35,42 @@ export default function App() {
       />
 
       <View style={[styles.tabBar, { backgroundColor: theme.bgCalc }, theme.shadow]}>
-        <TouchableOpacity
-          style={[styles.tab, tab === 'calc' && styles.tabActive]}
-          onPress={() => setTab('calc')}
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.tabScroll}
         >
-          <Text style={[styles.tabText, { color: theme.colorExpr }, tab === 'calc' && styles.tabTextActive]}>
-            Calculadora
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.tab, tab === 'graph' && styles.tabActive]}
-          onPress={() => setTab('graph')}
-        >
-          <Text style={[styles.tabText, { color: theme.colorExpr }, tab === 'graph' && styles.tabTextActive]}>
-            Gráficas
-          </Text>
-        </TouchableOpacity>
+          {TABS.map(t => (
+            <TouchableOpacity
+              key={t.id}
+              style={[styles.tab, tab === t.id && styles.tabActive]}
+              onPress={() => setTab(t.id)}
+            >
+              <Text style={[
+                styles.tabText,
+                { color: theme.colorExpr, fontFamily: 'DotMatrix' },
+                tab === t.id && styles.tabTextActive,
+              ]}>
+                {t.label}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
 
         <TouchableOpacity
           style={styles.themeBtn}
           onPress={() => setThemeName(n => n === 'dark' ? 'light' : 'dark')}
         >
-          <Text style={styles.themeIcon}>{themeName === 'dark' ? '☀' : '☾'}</Text>
+          <Text style={[styles.themeIcon, { fontFamily: 'DotMatrix' }]}>
+            {themeName === 'dark' ? '☀' : '☾'}
+          </Text>
         </TouchableOpacity>
       </View>
 
       <View style={styles.content}>
-        {tab === 'calc'
-          ? <Calculator theme={theme} />
-          : <Graph theme={theme} />}
+        {tab === 'calc'     && <Calculator theme={theme} />}
+        {tab === 'graph'    && <Graph      theme={theme} />}
+        {tab === 'matrices' && <Matrices   theme={theme} />}
       </View>
     </SafeAreaView>
   )
@@ -66,15 +87,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
     paddingVertical: 6,
   },
-  tab: {
-    paddingVertical: 7,
-    paddingHorizontal: 18,
-    borderRadius: 10,
-  },
+  tabScroll: { flexDirection: 'row', alignItems: 'center', gap: 2 },
+  tab: { paddingVertical: 7, paddingHorizontal: 13, borderRadius: 10 },
   tabActive: { backgroundColor: '#e94560' },
-  tabText: { fontSize: 14, fontWeight: '500' },
+  tabText: { fontSize: 13 },
   tabTextActive: { color: '#fff' },
-  themeBtn: { marginLeft: 'auto', padding: 6, paddingHorizontal: 10, borderRadius: 8 },
+  themeBtn: { padding: 6, paddingHorizontal: 10, borderRadius: 8 },
   themeIcon: { fontSize: 18 },
   content: { flex: 1, paddingHorizontal: 12, paddingBottom: 12 },
 })
