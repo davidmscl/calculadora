@@ -4,35 +4,10 @@ import {
   StyleSheet, PanResponder,
 } from 'react-native'
 import Svg, { Line, Path, Text as SvgText } from 'react-native-svg'
+import { buildFn } from './math-utils'
 
 const COLORS = ['#e94560', '#4fc3f7', '#a5d6a7', '#ffcc02', '#ce93d8', '#ffab91']
 const INITIAL_VIEW = { xMin: -10, xMax: 10, yMin: -6, yMax: 6 }
-
-function buildFn(expr) {
-  if (!expr.trim()) return null
-  const s = expr
-    .replace(/\^/g, '**')
-    .replace(/\basin\b/g, 'Math.asin')
-    .replace(/\bacos\b/g, 'Math.acos')
-    .replace(/\batan\b/g, 'Math.atan')
-    .replace(/\bsin\b/g, 'Math.sin')
-    .replace(/\bcos\b/g, 'Math.cos')
-    .replace(/\btan\b/g, 'Math.tan')
-    .replace(/\bln\b/g, 'Math.log')
-    .replace(/\blog\b/g, 'Math.log10')
-    .replace(/\bsqrt\b/g, 'Math.sqrt')
-    .replace(/\babs\b/g, 'Math.abs')
-    .replace(/\bexp\b/g, 'Math.exp')
-    .replace(/\bpow\b/g, 'Math.pow')
-    .replace(/\bpi\b/gi, 'Math.PI')
-    .replace(/\be\b/g, 'Math.E')
-  try {
-    // eslint-disable-next-line no-new-func
-    return new Function('x', `"use strict"; try { return +(${s}) } catch { return NaN }`)
-  } catch {
-    return null
-  }
-}
 
 function niceStep(range, target = 8) {
   const rough = range / target
