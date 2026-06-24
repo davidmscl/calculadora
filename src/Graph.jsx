@@ -65,6 +65,76 @@ export default function Graph({ theme }) {
   useEffect(() => { viewRef.current = view }, [view])
   useEffect(() => { sizeRef.current = canvasSize }, [canvasSize])
 
+  // ── Keyboard support (web) ────────────────────────────────────────────────
+  useEffect(() => {
+    const PAN_FACTOR = 0.1 // 10 % del rango por pulsación
+
+    const onKeyDown = (e) => {
+      // No interferir con inputs activos
+      const tag = e.target.tagName
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || e.target.isContentEditable) return
+
+      switch (e.key) {
+        case '+':
+        case '=':
+          e.preventDefault()
+          setView((v) => {
+            const xM = (v.xMin + v.xMax) / 2, yM = (v.yMin + v.yMax) / 2
+            const xR = (v.xMax - v.xMin) / 2 * 0.7
+            const yR = (v.yMax - v.yMin) / 2 * 0.7
+            return { xMin: xM - xR, xMax: xM + xR, yMin: yM - yR, yMax: yM + yR }
+          })
+          break
+        case '-':
+        case '_':
+          e.preventDefault()
+          setView((v) => {
+            const xM = (v.xMin + v.xMax) / 2, yM = (v.yMin + v.yMax) / 2
+            const xR = (v.xMax - v.xMin) / 2 / 0.7
+            const yR = (v.yMax - v.yMin) / 2 / 0.7
+            return { xMin: xM - xR, xMax: xM + xR, yMin: yM - yR, yMax: yM + yR }
+          })
+          break
+        case 'ArrowUp':
+          e.preventDefault()
+          setView((v) => {
+            const dy = (v.yMax - v.yMin) * PAN_FACTOR
+            return { ...v, yMin: v.yMin + dy, yMax: v.yMax + dy }
+          })
+          break
+        case 'ArrowDown':
+          e.preventDefault()
+          setView((v) => {
+            const dy = (v.yMax - v.yMin) * PAN_FACTOR
+            return { ...v, yMin: v.yMin - dy, yMax: v.yMax - dy }
+          })
+          break
+        case 'ArrowLeft':
+          e.preventDefault()
+          setView((v) => {
+            const dx = (v.xMax - v.xMin) * PAN_FACTOR
+            return { ...v, xMin: v.xMin - dx, xMax: v.xMax - dx }
+          })
+          break
+        case 'ArrowRight':
+          e.preventDefault()
+          setView((v) => {
+            const dx = (v.xMax - v.xMin) * PAN_FACTOR
+            return { ...v, xMin: v.xMin + dx, xMax: v.xMax + dx }
+          })
+          break
+        case 'r':
+        case 'R':
+          e.preventDefault()
+          setView(INITIAL_VIEW)
+          break
+      }
+    }
+
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [])
+
   const panResponder = useRef(
     PanResponder.create({
       onStartShouldSetPanResponder: () => true,
@@ -235,7 +305,7 @@ export default function Graph({ theme }) {
       </View>
 
       <Text style={[styles.hint, { color: theme.graphLabel }]}>
-        Arrastra para mover · Botones para zoom
+        Arrastra · Flechas para mover · +/− zoom · R reset
       </Text>
     </View>
   )
