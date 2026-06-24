@@ -60,6 +60,38 @@ export default function Calculator({ theme }) {
 
   const historyRef = useRef(null)
   const funcRef    = useRef(null)
+  // Ref para que el keyboard handler siempre llame a handleButton actual
+  const handleRef  = useRef(handleButton)
+  handleRef.current = handleButton
+
+  // ── Keyboard support (web) ────────────────────────────────────────────────
+  useEffect(() => {
+    const KEY_MAP = {
+      '0': '0', '1': '1', '2': '2', '3': '3', '4': '4',
+      '5': '5', '6': '6', '7': '7', '8': '8', '9': '9',
+      '+': '+', '-': '−', '*': '×', '/': '÷',
+      'Enter': '=', '=': '=',
+      'Backspace': 'DEL',
+      'Delete': 'C', 'Escape': 'C',
+      '.': '.', '(': '(', ')': ')', '%': '%', '^': 'xʸ',
+    }
+
+    const onKeyDown = (e) => {
+      // No interferir con inputs activos (TextInput, input, textarea)
+      const tag = e.target.tagName
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || e.target.isContentEditable) return
+
+      const btn = KEY_MAP[e.key] || (e.shiftKey && e.key === '5' ? '%' : null)
+      if (btn) {
+        e.preventDefault()
+        handleRef.current(btn)
+      }
+    }
+
+    // react-native-web expone keydown en window
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [])
 
   const handleFuncToken = ({ ins }) => {
     if (ins === '⌫')  { setFuncExpr(f => f.slice(0, -1)); return }
